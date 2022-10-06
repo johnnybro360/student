@@ -1,0 +1,17 @@
+﻿<Window x:Class="UIExercise.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIExercise"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <ListBox x:Name="listStudents" HorizontalAlignment="Left" Height="400" Margin="10,10,0,0" VerticalAlignment="Top" Width="267" SelectionChanged="listStudents_SelectionChanged"/>
+        <Button x:Name="buttonGetStudents" Click="buttonGetStudents_Click" Content="Get Students" HorizontalAlignment="Left" Margin="654,10,0,0" VerticalAlignment="Top" Width="128" Height="58" FontSize="20"/>
+        <TextBox x:Name="textBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="337,62,0,0" TextWrapping="Wrap" Text="First Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBoxLastName" HorizontalAlignment="Left" Height="23" Margin="462,62,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="comboEnrolment" HorizontalAlignment="Left" Margin="337,105,0,0" VerticalAlignment="Top" Width="245" Height="32" SelectionChanged="comboEnrolment_SelectionChanged"/>
+
+    </Grid>
+</Window>
