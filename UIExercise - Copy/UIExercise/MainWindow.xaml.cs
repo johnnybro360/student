@@ -113,7 +113,10 @@ namespace UIExercise
             EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
             int studentID = service.GetStudents().Count() + 1;
             Student newStudent = new Student(studentID, textBoxFirstName.Text, textBoxLastName.Text, Status);
-            service.AddStudent(newStudent);
+            if (textBoxFirstName.Text != "" || textBoxLastName.Text != "")
+            { 
+                service.AddStudent(newStudent); 
+            }
             listStudents.Items.Refresh();
 
 
