@@ -36,8 +36,9 @@ namespace UIExercise
         /// <param name="e"></param>
         private void buttonGetStudents_Click(object sender, RoutedEventArgs e)
         {
-            
+            listStudents.Items.Refresh();
             listStudents.ItemsSource = service.GetStudents();
+
         }
 
         /// <summary>
@@ -51,6 +52,8 @@ namespace UIExercise
             Student selectedStudent = (Student)listStudents.SelectedItem;
             textBoxFirstName.Text = selectedStudent.FirstName;
             textBoxLastName.Text = selectedStudent.LastName;
+            comboEnrolment.SelectedItem = selectedStudent.Enrolment;
+
         }
 
         /// <summary>
@@ -61,23 +64,59 @@ namespace UIExercise
         /// <param name="e"></param>
         private void comboEnrolment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Enum enrolmentStatus = (Enum)comboEnrolment.SelectedItem;
+            EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
             Student selectedStudent = (Student)listStudents.SelectedItem;
-            //MessageBox.Show(selectedStudent.Enrolment.ToString());
-            //MessageBox.Show(enrolmentStatus.ToString());
 
-            if (enrolmentStatus.ToString() == "Enrolled")
+        }
+
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+            Student selectedStudent = (Student)listStudents.SelectedItem;
+            if (Status == EnrolmentStatus.Enrolled)
             {
-                selectedStudent.EnrolStudent();
+                selectedStudent.Enrolment = EnrolmentStatus.Enrolled;
                 MessageBox.Show(selectedStudent.Enrolment.ToString());
-
             }
-            else if (enrolmentStatus.ToString() == "Withdrawn")
+            else if (Status == EnrolmentStatus.Withdrawn)
             {
-                selectedStudent.Withdraw();
+                selectedStudent.Enrolment = EnrolmentStatus.Withdrawn;
                 MessageBox.Show(selectedStudent.Enrolment.ToString());
-
             }
+            else if (Status == EnrolmentStatus.Pending)
+            {
+                selectedStudent.Enrolment = EnrolmentStatus.Pending;
+                MessageBox.Show(selectedStudent.Enrolment.ToString());
+            }
+            else if (Status == EnrolmentStatus.Paid)
+            {
+                selectedStudent.Enrolment = EnrolmentStatus.Paid;
+                MessageBox.Show(selectedStudent.Enrolment.ToString());
+            }
+            else if (Status == EnrolmentStatus.NotEnrolled)
+            {
+                selectedStudent.Enrolment = EnrolmentStatus.NotEnrolled;
+                MessageBox.Show(selectedStudent.Enrolment.ToString());
+            }
+            else if (Status == EnrolmentStatus.Failed)
+            {
+                selectedStudent.Enrolment = EnrolmentStatus.Failed;
+                MessageBox.Show(selectedStudent.Enrolment.ToString());
+            }
+            listStudents.Items.Refresh();
+
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+            int studentID = service.GetStudents().Count() + 1;
+            Student newStudent = new Student(studentID, textBoxFirstName.Text, textBoxLastName.Text, Status);
+            service.AddStudent(newStudent);
+            listStudents.Items.Refresh();
+
+
         }
     }
 }

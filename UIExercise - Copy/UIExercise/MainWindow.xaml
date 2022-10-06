@@ -12,6 +12,8 @@
         <TextBox x:Name="textBoxFirstName" HorizontalAlignment="Left" Height="23" Margin="337,62,0,0" TextWrapping="Wrap" Text="First Name" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="textBoxLastName" HorizontalAlignment="Left" Height="23" Margin="462,62,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="comboEnrolment" HorizontalAlignment="Left" Margin="337,105,0,0" VerticalAlignment="Top" Width="245" Height="32" SelectionChanged="comboEnrolment_SelectionChanged"/>
+        <Button x:Name="SaveButton" Content="SAVE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="507,167,0,0" Click="SaveButton_Click"/>
+        <Button x:Name="AddButton" Content="ADD" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="337,167,0,0" Click="AddButton_Click"/>
 
     </Grid>
 </Window>
