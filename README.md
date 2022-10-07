@@ -3,6 +3,7 @@
 Session 11 - WPF Exercise
 
 There are two classes in the program, one for the student model and another for the data service (which emulates fetching data). 
+
 Using the methods and code provided complete the WPF UI components to make it have the following features and functionality:
 
 1. When a user presses the Get Students, it should call the appropriate methods in the service to retrieve and display the students in the list.
