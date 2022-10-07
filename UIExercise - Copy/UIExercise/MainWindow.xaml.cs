@@ -21,7 +21,8 @@ namespace UIExercise
     public partial class MainWindow : Window
     {
         DataService service = new DataService();
-
+        Student selectedStudent;
+        EnrolmentStatus Status;
         public MainWindow()
         {
             InitializeComponent();
@@ -49,7 +50,7 @@ namespace UIExercise
         /// <param name="e"></param>
         private void listStudents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Student selectedStudent = (Student)listStudents.SelectedItem;
+            selectedStudent = (Student)listStudents.SelectedItem;
             textBoxFirstName.Text = selectedStudent.FirstName;
             textBoxLastName.Text = selectedStudent.LastName;
             comboEnrolment.SelectedItem = selectedStudent.Enrolment;
@@ -64,62 +65,51 @@ namespace UIExercise
         /// <param name="e"></param>
         private void comboEnrolment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
-            Student selectedStudent = (Student)listStudents.SelectedItem;
 
+            if (listStudents.SelectedItem != null)
+            {
+                Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+                selectedStudent = (Student)listStudents.SelectedItem;
+                selectedStudent.Enrolment = Status;
+            }
         }
 
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
-            Student selectedStudent = (Student)listStudents.SelectedItem;
-            if (Status == EnrolmentStatus.Enrolled)
+            
+            if (listStudents.SelectedItem != null)
             {
-                selectedStudent.Enrolment = EnrolmentStatus.Enrolled;
-                MessageBox.Show(selectedStudent.Enrolment.ToString());
+                Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+                selectedStudent.FirstName = textBoxFirstName.Text;
+                selectedStudent.LastName = textBoxLastName.Text;
+                selectedStudent.Enrolment = Status;
             }
-            else if (Status == EnrolmentStatus.Withdrawn)
-            {
-                selectedStudent.Enrolment = EnrolmentStatus.Withdrawn;
-                MessageBox.Show(selectedStudent.Enrolment.ToString());
-            }
-            else if (Status == EnrolmentStatus.Pending)
-            {
-                selectedStudent.Enrolment = EnrolmentStatus.Pending;
-                MessageBox.Show(selectedStudent.Enrolment.ToString());
-            }
-            else if (Status == EnrolmentStatus.Paid)
-            {
-                selectedStudent.Enrolment = EnrolmentStatus.Paid;
-                MessageBox.Show(selectedStudent.Enrolment.ToString());
-            }
-            else if (Status == EnrolmentStatus.NotEnrolled)
-            {
-                selectedStudent.Enrolment = EnrolmentStatus.NotEnrolled;
-                MessageBox.Show(selectedStudent.Enrolment.ToString());
-            }
-            else if (Status == EnrolmentStatus.Failed)
-            {
-                selectedStudent.Enrolment = EnrolmentStatus.Failed;
-                MessageBox.Show(selectedStudent.Enrolment.ToString());
-            }
+       
             listStudents.Items.Refresh();
 
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            EnrolmentStatus Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
-            int studentID = service.GetStudents().Count() + 1;
-            Student newStudent = new Student(studentID, textBoxFirstName.Text, textBoxLastName.Text, Status);
-            if (textBoxFirstName.Text != "" || textBoxLastName.Text != "")
-            { 
-                service.AddStudent(newStudent); 
+          
+            if (comboEnrolment.SelectedItem != null && textBoxFirstName.Text != "" && textBoxLastName.Text != "")
+            {
+                Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+                int studentID = service.GetStudents().Count() + 1;
+                Student newStudent = new Student(studentID, textBoxFirstName.Text, textBoxLastName.Text, Status);
+                if (!service.ListBoxDuplicateCheck(newStudent))
+                {
+                    service.AddStudent(newStudent);
+
+                }
+                else MessageBox.Show("The selected student is already in the list.");
+
             }
             listStudents.Items.Refresh();
 
-
         }
+
+    
     }
 }

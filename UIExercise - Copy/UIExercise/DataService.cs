@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace UIExercise
 {
@@ -34,7 +35,16 @@ namespace UIExercise
             students.Remove(student);
         }
 
-
+        public bool ListBoxDuplicateCheck(Student newStudent)
+        {
+            for (int i = 0; i < students.Count; i++)
+            {
+                if (newStudent.FirstName == students[i].FirstName && newStudent.LastName == students[i].LastName)
+                    return true;
+            }
+            return false;
+          
+        }
 
     }
 }
