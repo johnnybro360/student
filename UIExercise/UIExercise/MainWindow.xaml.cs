@@ -20,7 +20,7 @@ namespace UIExercise
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Business logic
+        // Business logic 
         DataService service = new DataService();
         Student selectedStudent;
         EnrolmentStatus Status;
