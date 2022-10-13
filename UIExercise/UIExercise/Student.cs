@@ -45,7 +45,7 @@ namespace UIExercise
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{FirstName} {LastName}";
+            return $"[{ID}] {FirstName} {LastName} ({Enrolment})";
         }
 
     }

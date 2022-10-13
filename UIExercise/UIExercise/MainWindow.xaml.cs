@@ -20,6 +20,7 @@ namespace UIExercise
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Business logic
         DataService service = new DataService();
         Student selectedStudent;
         EnrolmentStatus Status;
@@ -27,6 +28,8 @@ namespace UIExercise
         {
             InitializeComponent();
             comboEnrolment.ItemsSource = Enum.GetValues(typeof(EnrolmentStatus));
+            RefreshStudents();
+
         }
 
         /// <summary>
@@ -37,9 +40,21 @@ namespace UIExercise
         /// <param name="e"></param>
         private void buttonGetStudents_Click(object sender, RoutedEventArgs e)
         {
-            listStudents.Items.Refresh();
-            listStudents.ItemsSource = service.GetStudents();
+            //listStudents.ItemsSource = service.GetStudents();
+            RefreshStudents();
+           
+        }
 
+        private void RefreshStudents() 
+        {
+            List<Student> students = service.GetStudents();
+
+            listStudents.Items.Clear();
+            foreach (Student student in students) 
+            {
+                listStudents.Items.Add(student);
+            }
+        
         }
 
         /// <summary>
@@ -50,7 +65,10 @@ namespace UIExercise
         /// <param name="e"></param>
         private void listStudents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // what student is selected?
             selectedStudent = (Student)listStudents.SelectedItem;
+            if (selectedStudent == null) return;
+            // Update the UI with that students.details
             textBoxFirstName.Text = selectedStudent.FirstName;
             textBoxLastName.Text = selectedStudent.LastName;
             comboEnrolment.SelectedItem = selectedStudent.Enrolment;
@@ -66,27 +84,31 @@ namespace UIExercise
         private void comboEnrolment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if (listStudents.SelectedItem != null)
-            {
-                Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
-                selectedStudent = (Student)listStudents.SelectedItem;
-                selectedStudent.Enrolment = Status;
-            }
+      
+            Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+            selectedStudent = (Student)listStudents.SelectedItem;
+            if ( selectedStudent == null) return;
+            selectedStudent.Enrolment = Status;
+            RefreshStudents();
+
+            //listStudents.Items.Refresh();
         }
 
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Are you sure?", "Confirm?", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+            selectedStudent = (Student)listStudents.SelectedItem;
+            if (listStudents.SelectedItem == null) return;
             
-            if (listStudents.SelectedItem != null)
-            {
-                Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
-                selectedStudent.FirstName = textBoxFirstName.Text;
-                selectedStudent.LastName = textBoxLastName.Text;
-                selectedStudent.Enrolment = Status;
-            }
-       
-            listStudents.Items.Refresh();
+            Status = (EnrolmentStatus)comboEnrolment.SelectedItem;
+            selectedStudent.FirstName = textBoxFirstName.Text;
+            selectedStudent.LastName = textBoxLastName.Text;
+            //selectedStudent.Enrolment = Status;
+
+            //listStudents.Items.Refresh();
+            RefreshStudents();
+            MessageBox.Show("Saved!");
 
         }
 
@@ -106,10 +128,11 @@ namespace UIExercise
                 else MessageBox.Show("The selected student is already in the list.");
 
             }
-            listStudents.Items.Refresh();
+            //listStudents.Items.Refresh();
+            RefreshStudents();
 
         }
 
-    
+
     }
 }
